@@ -1,0 +1,7 @@
+shorter:
+    resource: "@ShorterBundle/Controller/"
+    type: annotation
+
+shorter_api:
+    type:     rest
+    resource: "@ShorterBundle/Controller/ApiController.php"
