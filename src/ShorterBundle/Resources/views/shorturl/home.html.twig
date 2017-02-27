@@ -1,0 +1,52 @@
+{% extends '@Shorter/shorturl/shorturl_layout.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-5 col-lg-6 col-md-offset-4 col-lg-offset-3">
+            <div class="panel panel-default" ng-controller="ShorterCtrl">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Simplify your links</h3>
+                </div>
+                <div class="panel-body">
+                    <form name="urlForm" ng-submit="saveUrl()">
+                        <div class="alert alert-success" role="alert" ng-show="response.short_url">
+                            <strong>Well done!</strong>
+                            You short link: <a href="{{ '{{response.short_url}}' }}" target="_blank">{{ '{{response.short_url}}' }}</a>
+                        </div>
+                        <div class="alert alert-danger" role="alert" ng-show="errors.message">
+                            {{ '{{errors.message}}' }}
+                        </div>
+                        <div class="form-group" ng-class="{ 'has-error' : urlForm.url.$invalid && !urlForm.url.$pristine || errors.url }">
+                            <label for="url">Your link</label>
+                            <input type="url" id="url" name="url" ng-model="form.url" class="form-control"
+                                   placeholder="Your link" required>
+                            <p ng-show="urlForm.url.$error.required && !urlForm.url.$pristine" class="help-block">Link is required.</p>
+                            <p ng-show="urlForm.url.$error.url && !urlForm.url.$pristine" class="help-block">Link is invalid.</p>
+                            <p ng-show="errors.url" class="help-block">{{ '{{ errors.url }}' }}</p>
+                        </div>
+                        <div class="form-check">
+                            <label>
+                                <input type="checkbox" ng-model="form.custom_link">
+                                Custom short link
+                            </label>
+                        </div>
+                        <div class="form-group" class="ng-hide" ng-show="form.custom_link"
+                             ng-class="{ 'has-error' : urlForm.short_url.$invalid && !urlForm.short_url.$pristine || errors.short_url }">
+                            <label for="short_url">Your short link</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">http://shorter.loc/</span>
+                                <input type="text" id="short_url" name="short_url" ng-model="form.short_url" class="form-control"
+                                       ng-required="form.custom_link" ng-minlength="5" ng-maxlength="30" ng-trim="true"
+                                       placeholder="Your short link">
+                            </div>
+                            <p ng-show="urlForm.short_url.$error.minlength && !urlForm.short_url.$pristine" class="help-block">Custom Link is too short.</p>
+                            <p ng-show="urlForm.short_url.$error.maxlength && !urlForm.short_url.$pristine" class="help-block">Custom Link is too long.</p>
+                            <p ng-show="errors.short_url" class="help-block">{{ '{{ errors.short_url }}' }}</p>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
